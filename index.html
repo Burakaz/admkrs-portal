@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>admkrs · Hub — Internes Portal</title>
+<meta name="description" content="admkrs · Hub — das interne Portal der ADMKRS GmbH. Der zentrale Startpunkt für alle Plattformen, Tools und Benefits des Teams und die Onboarding-Heimat für neue Kolleg:innen." />
+<meta name="theme-color" content="#080808" />
+<meta name="color-scheme" content="dark" />
+<meta name="robots" content="noindex, nofollow" />
+<meta property="og:title" content="admkrs · Hub — Internes Portal" />
+<meta property="og:description" content="Alle Tools des Teams. Ein Startpunkt. Das interne Portal der ADMKRS GmbH." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="de_DE" />
+<meta property="og:site_name" content="admkrs · Hub" />
+<meta property="og:url" content="https://burakaz.github.io/admkrs-portal/" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="admkrs · Hub — Internes Portal" />
+<meta name="twitter:description" content="Alle Tools des Teams. Ein Startpunkt." />
+<!-- On-brand inline SVG favicon (neon-green mark on dark) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23c6ff3a'/%3E%3Cstop offset='1' stop-color='%2334d058'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='%23080808'/%3E%3Cpath d='M20 44 L32 20 L44 44' fill='none' stroke='url(%23g)' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='44' r='3.4' fill='url(%23g)'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<!-- Progressive enhancement flag: only when JS runs do we enable the hidden-then-reveal state. -->
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root {
+    --bg: #080808;
+    --bg-soft: #0d0d0d;
+    --surface: #101010;
+    --surface-2: #161616;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.14);
+    --ink: #f4f4f2;
+    --ink-bright: #ffffff;
+    --muted: #9a9a9a;
+    --muted-dim: #949490;
+    --neon-1: #c6ff3a;
+    --neon-2: #b6f400;
+    --neon-3: #34d058;
+    --neon-grad: linear-gradient(100deg, #c6ff3a 0%, #b6f400 38%, #34d058 100%);
+    --neon-glow: rgba(182, 244, 0, 0.30);
+    --radius: 16px;
+    --radius-sm: 12px;
+    --radius-pill: 999px;
+    --maxw: 1200px;
+    --sidebar-w: 248px;
+    --topbar-h: 68px;
+    --spy-h: 56px;
+    --font-display: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+    --ease: cubic-bezier(0.2, 0.65, 0.25, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Ambient neon-green radial vignette (top-left), like candidate B */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(680px 560px at 4% -4%, rgba(182, 244, 0, 0.13), transparent 58%),
+      radial-gradient(760px 620px at 86% 10%, rgba(0, 230, 118, 0.07), transparent 62%),
+      radial-gradient(1200px 900px at 50% 120%, rgba(255, 255, 255, 0.02), transparent 60%);
+  }
+  .ambient::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 320px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  ::selection { background: rgba(182, 244, 0, 0.26); color: #fff; }
+
+  :focus-visible {
+    outline: 2px solid var(--neon-1);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 44px);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Skip link */
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 200;
+    background: var(--neon-1);
+    color: #0a0a0a;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .skip:focus { left: 18px; top: 14px; }
+
+  /* ===== Top bar ===== */
+  header.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    background: rgba(8, 8, 8, 0.64);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
+  }
+  header.topbar.scrolled {
+    border-bottom-color: var(--line);
+    background: rgba(8, 8, 8, 0.84);
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--topbar-h);
+    gap: 18px;
+  }
+  .brand { display: flex; align-items: center; gap: 13px; min-width: 0; }
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--ink-bright);
+    white-space: nowrap;
+  }
+  .logo-mark {
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: var(--neon-grad);
+    color: #0a0a0a;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: 0 0 18px rgba(182, 244, 0, 0.34);
+    flex-shrink: 0;
+  }
+  .wordmark .dot { color: var(--neon-1); padding: 0 1px; font-weight: 700; transform: translateY(-1px); }
+  .wordmark .sub { color: var(--muted); font-weight: 500; }
+  .bar-tag {
+    display: none;
+    font-family: var(--font-display);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-dim);
+    border: 1px solid var(--line);
+    padding: 5px 11px;
+    border-radius: var(--radius-pill);
+  }
+  @media (min-width: 920px) { .bar-tag { display: inline-block; } }
+  .topbar-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  .ver {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-dim);
+    white-space: nowrap;
+  }
+  @media (max-width: 720px) { .ver { display: none; } }
+
+  /* Primary neon pill — bold black text */
+  .btn-neon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--neon-grad);
+    color: #0a0a0a;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    padding: 11px 20px;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), filter 0.3s var(--ease);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  .btn-neon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 34px var(--neon-glow);
+    filter: brightness(1.04);
+  }
+  .btn-neon:active { transform: translateY(0); }
+  .btn-neon svg { width: 14px; height: 14px; transition: transform 0.3s var(--ease); }
+  .btn-neon:hover svg { transform: translate(2px, -2px); }
+
+  /* ===== Mobile scroll-spy strip (pinned under topbar) ===== */
+  .mobile-spy { display: none; }
+
+  /* ===== Hero ===== */
+  .hero { padding: clamp(54px, 9vw, 104px) 0 clamp(30px, 5vw, 52px); position: relative; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 30px;
+  }
+  .eyebrow .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--neon-1);
+    box-shadow: 0 0 0 0 rgba(182, 244, 0, 0.55);
+    animation: pulse 2.6s var(--ease) infinite;
+    flex-shrink: 0;
+  }
+  .eyebrow .dash { color: var(--neon-1); }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(182, 244, 0, 0.45); }
+    70% { box-shadow: 0 0 0 8px rgba(182, 244, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(182, 244, 0, 0); }
+  }
+
+  h1.headline {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.7rem, 7.2vw, 5.6rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin-bottom: 30px;
+    color: var(--ink-bright);
+  }
+  h1.headline .line2 {
+    background: var(--neon-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+    filter: drop-shadow(0 0 26px rgba(182, 244, 0, 0.20));
+  }
+  .subcopy {
+    max-width: 60ch;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.5vw, 1.18rem);
+    line-height: 1.64;
+    margin-bottom: 34px;
+  }
+  .subcopy strong { color: var(--ink-bright); font-weight: 600; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+    border: 1px solid var(--line-strong);
+    background: rgba(255, 255, 255, 0.014);
+    padding: 8px 15px;
+    border-radius: var(--radius-pill);
+  }
+  .chip .cdot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--neon-1);
+    box-shadow: 0 0 8px var(--neon-glow);
+    flex-shrink: 0;
+  }
+  .chip strong { color: var(--ink-bright); font-weight: 700; }
+
+  /* ===== Search ===== */
+  .searchwrap { position: relative; max-width: 540px; }
+  .searchwrap .icon {
+    position: absolute;
+    left: 20px; top: 50%;
+    transform: translateY(-50%);
+    width: 18px; height: 18px;
+    color: var(--muted-dim);
+    pointer-events: none;
+    transition: color 0.25s var(--ease);
+  }
+  #search {
+    width: 100%;
+    height: 58px;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    color: var(--ink-bright);
+    font-family: var(--font-body);
+    font-size: 15.5px;
+    padding: 0 64px 0 52px;
+    transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  #search::placeholder { color: var(--muted-dim); }
+  #search:focus {
+    outline: none;
+    border-color: rgba(182, 244, 0, 0.5);
+    background: var(--surface-2);
+    box-shadow: 0 0 0 4px rgba(182, 244, 0, 0.10), 0 8px 40px -14px var(--neon-glow);
+  }
+  .searchwrap:focus-within .icon { color: var(--neon-1); }
+  .kbd-hint {
+    position: absolute;
+    right: 18px; top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: opacity 0.25s var(--ease);
+  }
+  .kbd-hint kbd {
+    font-family: var(--font-display);
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 4px 9px;
+    line-height: 1;
+  }
+  .searchwrap:focus-within .kbd-hint,
+  .searchwrap.has-value .kbd-hint { opacity: 0; }
+  .clearbtn {
+    position: absolute;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .clearbtn svg { width: 14px; height: 14px; }
+  .clearbtn:hover { color: var(--ink-bright); border-color: var(--line-strong); background: rgba(255, 255, 255, 0.06); }
+  .searchwrap.has-value .clearbtn { display: flex; }
+  .searchmeta {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted-dim);
+    min-height: 20px;
+    letter-spacing: 0.01em;
+  }
+  .searchmeta b { color: var(--muted); font-weight: 600; }
+
+  /* ===== Two-column layout: sidebar + content ===== */
+  .layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    gap: clamp(28px, 4vw, 60px);
+    align-items: start;
+    padding-bottom: 24px;
+  }
+
+  /* ===== Sidebar (persistent, sticky) ===== */
+  .sidebar {
+    position: sticky;
+    top: calc(var(--topbar-h) + 28px);
+    align-self: start;
+  }
+  .nav-title {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-dim);
+    margin-bottom: 18px;
+    padding-left: 2px;
+  }
+  .nav { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+  .nav-link {
+    display: flex;
+    align-items: baseline;
+    gap: 13px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    color: var(--muted);
+    position: relative;
+    line-height: 1.3;
+    transition: color 0.25s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .nav-link .num {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted-dim);
+    letter-spacing: 0.04em;
+    min-width: 18px;
+    transition: color 0.25s var(--ease);
+  }
+  .nav-link .label {
+    font-family: var(--font-display);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .nav-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.03); }
+  .nav-link:hover .num { color: var(--muted); }
+  .nav-link.active {
+    color: var(--ink-bright);
+    background: rgba(182, 244, 0, 0.06);
+    border-color: rgba(182, 244, 0, 0.18);
+  }
+  .nav-link.active .num { color: var(--neon-1); }
+  .nav-link.active::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 18px;
+    border-radius: 3px;
+    background: var(--neon-grad);
+    box-shadow: 0 0 12px var(--neon-glow);
+  }
+  .nav-foot {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted-dim);
+  }
+  .nav-foot .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+  }
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--neon-3);
+    box-shadow: 0 0 0 0 rgba(52, 208, 88, 0.5);
+    animation: livepulse 2.6s var(--ease) infinite;
+  }
+  @keyframes livepulse {
+    0% { box-shadow: 0 0 0 0 rgba(52, 208, 88, 0.45); }
+    70% { box-shadow: 0 0 0 8px rgba(52, 208, 88, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 208, 88, 0); }
+  }
+
+  /* ===== Content column ===== */
+  .content { min-width: 0; }
+
+  /* ===== Category sections ===== */
+  .section { padding-top: clamp(8px, 2vw, 16px); margin-bottom: clamp(44px, 6vw, 64px); scroll-margin-top: calc(var(--topbar-h) + 24px); }
+  .section:first-child { padding-top: 0; }
+  .section:last-of-type { margin-bottom: 16px; }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 26px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .section-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--neon-1);
+    letter-spacing: 0.04em;
+    padding: 6px 12px;
+    border: 1px solid rgba(182, 244, 0, 0.28);
+    border-radius: var(--radius-pill);
+    line-height: 1;
+    background: rgba(182, 244, 0, 0.05);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: var(--ink-bright);
+  }
+  .section-desc {
+    color: var(--muted-dim);
+    font-size: 13.5px;
+    margin-left: auto;
+    max-width: 32ch;
+    text-align: right;
+    line-height: 1.45;
+  }
+  .section-count {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-dim);
+    white-space: nowrap;
+    padding: 5px 11px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    flex-shrink: 0;
+  }
+  @media (max-width: 720px) { .section-desc { display: none; } }
+
+  /* ===== Tile grid ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px 22px 20px;
+    min-height: 156px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0)),
+      var(--surface);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  /* neon gradient border on hover */
+  .tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(140deg, rgba(182, 244, 0, 0.6), rgba(52, 208, 88, 0.2) 60%, rgba(182, 244, 0, 0));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .tile:hover, .tile:focus-visible {
+    transform: translateY(-5px);
+    border-color: transparent;
+    background: var(--surface-2);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55), 0 0 34px var(--neon-glow);
+    outline: none;
+  }
+  .tile:hover::after, .tile:focus-visible::after { opacity: 1; }
+  .tile:focus-visible { box-shadow: 0 0 0 3px rgba(182, 244, 0, 0.5), 0 20px 48px rgba(0, 0, 0, 0.55); }
+  .tile-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+  .fav {
+    width: 46px; height: 46px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .fav svg { width: 46px; height: 46px; display: block; }
+  .open-aff {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    color: var(--muted-dim);
+    background: rgba(255, 255, 255, 0.02);
+    transition: color 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .open-aff svg { width: 15px; height: 15px; }
+  .tile:hover .open-aff, .tile:focus-visible .open-aff {
+    color: #0a0a0a;
+    background: var(--neon-grad);
+    border-color: transparent;
+    transform: translate(2px, -2px);
+  }
+  .tile-body { margin-top: auto; position: relative; z-index: 1; }
+  .tile-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17.5px;
+    letter-spacing: -0.012em;
+    color: var(--ink-bright);
+    margin-bottom: 5px;
+  }
+  .tile-desc {
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 7px;
+  }
+  .tile-domain {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--muted-dim);
+    transition: color 0.4s var(--ease);
+  }
+  .tile:hover .tile-domain, .tile:focus-visible .tile-domain { color: var(--neon-3); }
+  mark {
+    background: rgba(182, 244, 0, 0.22);
+    color: #eaffc0;
+    border-radius: 3px;
+    padding: 0 1px;
+  }
+
+  .tile.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  /* ===== Empty state ===== */
+  .empty {
+    display: none;
+    text-align: center;
+    padding: 64px 20px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius);
+    color: var(--muted);
+  }
+  .empty.show { display: block; }
+  .empty .em-ic { font-size: 30px; color: var(--muted-dim); display: block; margin-bottom: 14px; }
+  .empty h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    color: var(--ink-bright);
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .empty p { font-size: 14px; margin-bottom: 22px; }
+  .empty button {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    padding: 11px 22px;
+    cursor: pointer;
+    transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  .empty button:hover { border-color: rgba(182, 244, 0, 0.5); background: rgba(182, 244, 0, 0.05); }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: clamp(48px, 8vw, 88px);
+    padding: 40px 0 52px;
+  }
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .footer-inner .copy { font-size: 13px; color: var(--muted-dim); }
+  .footer-inner .copy .dot { color: var(--neon-1); padding: 0 4px; }
+  .footer-inner .tag {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-dim);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .footer-inner .tag .live { width: 6px; height: 6px; border-radius: 50%; background: var(--neon-1); box-shadow: 0 0 8px 1px rgba(182, 244, 0, 0.6); }
+
+  /* ============================================================
+     SCROLL REVEAL — progressive enhancement.
+     Content is FULLY VISIBLE by default. Only when JS has added
+     the .js class to <html> do we enable the hidden-then-reveal
+     initial state. If JS fails, everything stays visible.
+     ============================================================ */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    animation: revealIn 0.7s var(--ease) forwards;
+    animation-delay: var(--d, 0ms);
+    will-change: opacity, transform;
+  }
+  @keyframes revealIn { to { opacity: 1; transform: none; } }
+  /* .in is a harmless reinforcement if the observer also runs */
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1060px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 0; }
+    .sidebar { display: none; }
+    /* Topbar + mobile-spy strip both stick and stack; offset anchored
+       section titles for the combined height so they aren't covered. */
+    .section { scroll-margin-top: calc(var(--topbar-h) + var(--spy-h) + 16px); }
+    /* Sidebar collapses into a horizontal scroll-spy strip pinned under the top bar */
+    .mobile-spy {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 11px clamp(20px, 4vw, 44px);
+      position: sticky;
+      top: var(--topbar-h);
+      z-index: 50;
+      background: rgba(8, 8, 8, 0.86);
+      backdrop-filter: saturate(140%) blur(12px);
+      -webkit-backdrop-filter: saturate(140%) blur(12px);
+      border-bottom: 1px solid var(--line);
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-spy::-webkit-scrollbar { display: none; }
+    .mspy-link {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-display);
+      font-size: 12.5px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--muted);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-pill);
+      padding: 11px 16px;
+      min-height: 40px;
+      white-space: nowrap;
+      transition: color 0.22s var(--ease), border-color 0.22s var(--ease), background 0.22s var(--ease);
+    }
+    .mspy-link .mnum { color: var(--muted-dim); transition: color 0.22s var(--ease); }
+    .mspy-link.active {
+      color: #0a0a0a;
+      background: var(--neon-grad);
+      border-color: transparent;
+      font-weight: 600;
+    }
+    .mspy-link.active .mnum { color: rgba(10, 10, 10, 0.6); }
+  }
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+    .section-head { gap: 12px; }
+    .section-count { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .eyebrow .pulse, .live-dot { animation: none !important; }
+    /* Under reduced motion the reveal just shows; no transforms/opacity transitions */
+    .js .reveal { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }
+    .tile { transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; }
+    .tile:hover, .tile:focus-visible { transform: none; }
+    .btn-neon:hover { transform: none; }
+    .open-aff { transition: color 0.2s, border-color 0.2s, background 0.2s; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<div class="ambient" aria-hidden="true"></div>
+
+<!-- ===== Top bar ===== -->
+<header class="topbar" id="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <a class="wordmark" href="#top" aria-label="admkrs Hub — zum Seitenanfang">
+        <span class="logo-mark" aria-hidden="true">a</span>
+        <span>admkrs<span class="dot" aria-hidden="true">·</span><span class="sub">Hub</span></span>
+      </a>
+      <span class="bar-tag">Internes Portal</span>
+    </div>
+    <div class="topbar-right">
+      <span class="ver">v2.6 · intern</span>
+      <a class="btn-neon" href="https://slack.com" target="_blank" rel="noopener noreferrer" aria-label="Feedback geben (öffnet in neuem Tab)">
+        Feedback geben
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" /></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Mobile scroll-spy strip (pinned under top bar) ===== -->
+<nav class="mobile-spy" aria-label="Kategorien (mobil)">
+  <a class="mspy-link" href="#interne-tools" data-spy="interne-tools"><span class="mnum">01</span>Interne Tools</a>
+  <a class="mspy-link" href="#projekt-kommunikation" data-spy="projekt-kommunikation"><span class="mnum">02</span>Projekt &amp; Kommunikation</a>
+  <a class="mspy-link" href="#hr-benefits" data-spy="hr-benefits"><span class="mnum">03</span>HR &amp; Benefits</a>
+</nav>
+
+<span id="top"></span>
+
+<!-- ===== Hero (full width above the two-column layout) ===== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">
+      <span class="pulse" aria-hidden="true"></span>
+      <span class="dash" aria-hidden="true">—</span> Internes Portal · ADMKRS GmbH
+    </p>
+    <h1 class="headline reveal" id="hero-title">
+      Alle Tools des Teams.<br />
+      <span class="line2">Ein Startpunkt.</span>
+    </h1>
+    <p class="subcopy reveal">
+      Willkommen im <strong>admkrs Hub</strong> — dem zentralen Zuhause für jede Plattform, die wir täglich nutzen.
+      Ob du seit Jahren dabei bist oder gerade <strong>neu im Team</strong> startest: Hier findest du jedes Werkzeug,
+      jeden Zugang und jedes Benefit an einem Ort. Such, klick, los.
+    </p>
+    <div class="chips reveal" role="list" aria-label="Status">
+      <span class="chip" role="listitem"><span class="cdot" aria-hidden="true"></span><strong>10</strong>&nbsp;Plattformen</span>
+      <span class="chip" role="listitem">intern</span>
+      <span class="chip" role="listitem">stets aktuell</span>
+      <span class="chip" role="listitem">Onboarding-Home</span>
+    </div>
+    <div class="searchwrap reveal" role="search">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+      <label for="search" class="skip">Plattformen durchsuchen</label>
+      <input id="search" type="search" autocomplete="off" placeholder="Plattform suchen … z. B. Slack, Urlaub, Vault" aria-describedby="searchmeta search-shortcut" aria-controls="content-area" aria-keyshortcuts="/" />
+      <span id="search-shortcut" class="skip">Tipp: Drücke die Schrägstrich-Taste, um die Suche zu fokussieren.</span>
+      <span class="kbd-hint" aria-hidden="true"><kbd>/</kbd></span>
+      <button class="clearbtn" id="clear" type="button" aria-label="Suche zurücksetzen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <p class="searchmeta reveal" id="searchmeta" aria-live="polite"><b>10</b> Plattformen in 3 Kategorien.</p>
+  </div>
+</section>
+
+<!-- ===== Two-column layout: sidebar + content ===== -->
+<div class="wrap">
+  <div class="layout">
+
+    <!-- Sidebar (persistent, desktop) -->
+    <aside class="sidebar">
+      <nav aria-label="Kategorien">
+        <p class="nav-title">Navigation</p>
+        <ul class="nav">
+          <li><a class="nav-link" href="#interne-tools" data-target="interne-tools"><span class="num">01</span><span class="label">Interne Tools</span></a></li>
+          <li><a class="nav-link" href="#projekt-kommunikation" data-target="projekt-kommunikation"><span class="num">02</span><span class="label">Projekt &amp; Kommunikation</span></a></li>
+          <li><a class="nav-link" href="#hr-benefits" data-target="hr-benefits"><span class="num">03</span><span class="label">HR &amp; Benefits</span></a></li>
+        </ul>
+        <div class="nav-foot">
+          <span class="live"><span class="live-dot" aria-hidden="true"></span> 10 Plattformen aktiv</span>
+          <br />zuletzt geprüft 15.06.2026
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Content column -->
+    <main class="content" id="main">
+      <div id="content-area">
+
+        <!-- ===== 01 Interne Tools ===== -->
+        <section class="section" id="interne-tools" aria-labelledby="h-interne-tools">
+          <div class="section-head reveal">
+            <span class="section-num" aria-hidden="true">01</span>
+            <h2 class="section-title" id="h-interne-tools">Interne Tools</h2>
+            <p class="section-desc">Eigenentwicklungen von admkrs — Kampagnen, Ziele und Zugänge.</p>
+            <span class="section-count" data-count-for="interne-tools">3 Plattformen</span>
+          </div>
+          <div class="grid" data-grid>
+
+            <a class="tile reveal" href="https://adagent.admkrs.com" target="_blank" rel="noopener noreferrer"
+               data-name="Ad Agent" data-desc="KI-Assistent für Kampagnen & Ads." data-domain="adagent.admkrs.com" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#C6FF3A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 2.6l1.9 5.1 5.1 1.9-5.1 1.9L11 16.6l-1.9-5.1L4 9.6l5.1-1.9z"/><path d="M18.4 14.6l.85 2.15 2.15.85-2.15.85-.85 2.15-.85-2.15-2.15-.85 2.15-.85z"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">Ad Agent</div>
+                <p class="tile-desc">KI-Assistent für Kampagnen &amp; Ads.</p>
+                <p class="tile-domain">adagent.admkrs.com</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+            <a class="tile reveal" href="https://okr.admkrs.com" target="_blank" rel="noopener noreferrer"
+               data-name="OKR Tracker" data-desc="Ziele & Quartals-OKRs verfolgen." data-domain="okr.admkrs.com" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#C6FF3A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.7"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.25" fill="#C6FF3A" stroke="none"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">OKR Tracker</div>
+                <p class="tile-desc">Ziele &amp; Quartals-OKRs verfolgen.</p>
+                <p class="tile-domain">okr.admkrs.com</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+            <a class="tile reveal" href="https://vault.admkrs.com" target="_blank" rel="noopener noreferrer"
+               data-name="Vault" data-desc="Passwörter & Zugänge sicher teilen." data-domain="vault.admkrs.com" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#C6FF3A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 2.6l7.2 2.5v5.9c0 4.7-3.1 7.9-7.2 10.4-4.1-2.5-7.2-5.7-7.2-10.4V5.1z"/><circle cx="12" cy="10.7" r="1.9"/><path d="M12 12.6v3.1"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">Vault</div>
+                <p class="tile-desc">Passwörter &amp; Zugänge sicher teilen.</p>
+                <p class="tile-domain">vault.admkrs.com</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- ===== 02 Projekt & Kommunikation ===== -->
+        <section class="section" id="projekt-kommunikation" aria-labelledby="h-projekt-kommunikation">
+          <div class="section-head reveal">
+            <span class="section-num" aria-hidden="true">02</span>
+            <h2 class="section-title" id="h-projekt-kommunikation">Projekt &amp; Kommunikation</h2>
+            <p class="section-desc">Womit wir planen, abstimmen und zusammenarbeiten.</p>
+            <span class="section-count" data-count-for="projekt-kommunikation">4 Plattformen</span>
+          </div>
+          <div class="grid" data-grid>
+
+            <a class="tile reveal" href="https://app.clickup.com" target="_blank" rel="noopener noreferrer"
+               data-name="ClickUp" data-desc="Aufgaben, Projekte & Workflows." data-domain="app.clickup.com" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#7B68EE" aria-hidden="true" focusable="false"><path d="M2 18.439l3.69-2.828c1.961 2.56 4.044 3.739 6.363 3.739 2.307 0 4.33-1.166 6.203-3.704L22 18.405C19.298 22.065 15.941 24 12.053 24 8.178 24 4.788 22.078 2 18.439zM12.04 6.15l-6.568 5.66-3.036-3.52L12.055 0l9.543 8.296-3.05 3.509z"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">ClickUp</div>
+                <p class="tile-desc">Aufgaben, Projekte &amp; Workflows.</p>
+                <p class="tile-domain">app.clickup.com</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+            <a class="tile reveal" href="https://slack.com" target="_blank" rel="noopener noreferrer"
+               data-name="Slack" data-desc="Team-Chat & Kanäle." data-domain="slack.com" data-fav="favicon">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs id="defs24" /><sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1659" inkscape:window-height="816" id="namedview22" showgrid="false" inkscape:zoom="2.8780488" inkscape:cx="41" inkscape:cy="41" inkscape:window-x="67" inkscape:window-y="27" inkscape:window-maximized="0" inkscape:current-layer="svg20" /><path d="m 17.777788,40.309957 c 0,-3.728276 2.81916,-6.729717 6.320986,-6.729717 3.501827,0 6.320986,3.001441 6.320986,6.729717 v 16.56525 c 0,3.728197 -2.819159,6.729717 -6.320986,6.729717 -3.501826,0 -6.320986,-3.00152 -6.320986,-6.729717 z" id="path2" inkscape:connector-curvature="0" style="fill:#e01e5a;stroke:#e01e5a;stroke-width:0.79012328" /><path d="m 40.309891,46.222212 c -3.728196,0 -6.729638,-2.81916 -6.729638,-6.320986 0,-3.501826 3.001442,-6.320986 6.729638,-6.320986 H 56.8753 c 3.728197,0 6.729638,2.81916 6.729638,6.320986 0,3.501826 -3.001441,6.320986 -6.729638,6.320986 z" id="path4" inkscape:connector-curvature="0" style="fill:#ecb22d;stroke:#ecb22d;stroke-width:0.79012328" /><path d="m 33.580253,7.1246997 c 0,-3.7281963 2.81916,-6.72963758 6.320987,-6.72963758 3.501826,0 6.320986,3.00144128 6.320986,6.72963758 V 23.69003 c 0,3.728275 -2.81916,6.729717 -6.320986,6.729717 -3.501827,0 -6.320987,-3.001442 -6.320987,-6.729717 z" id="path6" inkscape:connector-curvature="0" style="fill:#2fb67c;stroke:#2fb67c;stroke-width:0.79012328" /><path d="m 7.1247142,30.419747 c -3.7281967,0 -6.72963796,-2.81916 -6.72963796,-6.320987 0,-3.501826 3.00144126,-6.320986 6.72963796,-6.320986 H 23.690043 c 3.728276,0 6.729717,2.81916 6.729717,6.320986 0,3.501827 -3.001441,6.320987 -6.729717,6.320987 z" id="path8" inkscape:connector-curvature="0" style="fill:#36c5f1;stroke:#36c5f1;stroke-width:0.79012328" /><g id="g18" style="stroke-linejoin:miter" transform="matrix(0.79012328,0,0,0.79012328,-0.39504704,-0.39506116)"><path d="m 43,73 a 7.983,7.983 0 0 0 8,8 c 4.432,0 8,-3.568 8,-8 a 7.983,7.983 0 0 0 -8,-8 h -8 z" id="path10" inkscape:connector-curvature="0" style="fill:#ecb22d;stroke:#ecb22d" /><path d="m 73,39 h -8 v -8 c 0,-4.432 3.568,-8 8,-8 4.432,0 8,3.568 8,8 0,4.432 -3.568,8 -8,8 z" id="path12" inkscape:connector-curvature="0" style="fill:#2fb67c;stroke:#2fb67c" /><path d="m 9,43 h 8 v 8 c 0,4.432 -3.568,8 -8,8 A 7.983,7.983 0 0 1 1,51 c 0,-4.432 3.568,-8 8,-8 z" id="path14" inkscape:connector-curvature="0" style="fill:#e01e5a;stroke:#e01e5a" /><path d="m 39,9 v 8 H 31 A 7.983,7.983 0 0 1 23,9 c 0,-4.432 3.568,-8 8,-8 a 7.983,7.983 0 0 1 8,8 z" id="path16" inkscape:connector-curvature="0" style="fill:#36c5f1;stroke:#36c5f1" /></g></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">Slack</div>
+                <p class="tile-desc">Team-Chat &amp; Kanäle.</p>
+                <p class="tile-domain">slack.com</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+            <a class="tile reveal" href="https://drive.google.com" target="_blank" rel="noopener noreferrer"
+               data-name="Google Drive" data-desc="Zentraler Speicher: Kundenprojekte & interne Dokumente." data-domain="drive.google.com" data-fav="favicon">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><radialGradient id="A" cx="-254.817" cy="705.837" gradientTransform="matrix(2.827,1.6322,-1.6322,2.827,1967.2161,-1760.7166)" gradientUnits="userSpaceOnUse" r="82.973"><stop offset="0" stop-color="#ffd24d"/><stop offset="1" stop-color="#f6c338"/></radialGradient><radialGradient id="B" cx="-254.82" cy="705.836" gradientTransform="matrix(2.827,1.6322,-1.6322,2.827,1967.2161,-1760.7166)" gradientUnits="userSpaceOnUse" r="82.978"><stop offset="0" stop-color="#4387fd"/><stop offset=".65" stop-color="#3078f0"/><stop offset=".91" stop-color="#2b72ea"/><stop offset="1" stop-color="#286ee6"/></radialGradient></defs><g transform="matrix(.460432 0 0 .460432 57.509647 126.82041)"><path d="M-100.704-145.738l-24.2-41.9 45.3-78.5 24.2 41.9z" fill="#0da960"/><path d="M-100.704-145.738l24.2-41.9h90.6l-24.2 41.9z" fill="url(#B)"/><path d="M14.096-187.638h-48.4l-45.3-78.5h48.4z" fill="url(#A)"/><path d="M-55.404-187.638h-21.1l10.5-18.3-34.7 60.2z" fill="#2d6fdd"/><path d="M-34.304-187.638h48.4l-58.9-18.3z" fill="#e5b93c"/><path d="M-66.004-205.938l10.6-18.3-24.2-41.9z" fill="#0c9b57"/></g></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">Google Drive</div>
+                <p class="tile-desc">Zentraler Speicher: Kundenprojekte &amp; interne Dokumente.</p>
+                <p class="tile-domain">drive.google.com</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+            <a class="tile reveal" href="https://app.frame.io" target="_blank" rel="noopener noreferrer"
+               data-name="Frame.io" data-desc="Video-Review & Freigaben." data-domain="app.frame.io" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#8B83FF" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false"><rect x="3.4" y="5" width="17.2" height="14" rx="3.2"/><path d="M10 9.1l5.1 2.9-5.1 2.9z" fill="#8B83FF" stroke="none"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">Frame.io</div>
+                <p class="tile-desc">Video-Review &amp; Freigaben.</p>
+                <p class="tile-domain">app.frame.io</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- ===== 03 HR & Benefits ===== -->
+        <section class="section" id="hr-benefits" aria-labelledby="h-hr-benefits">
+          <div class="section-head reveal">
+            <span class="section-num" aria-hidden="true">03</span>
+            <h2 class="section-title" id="h-hr-benefits">HR &amp; Benefits</h2>
+            <p class="section-desc">Alles rund um dich — Urlaub, Gehalt, Extras.</p>
+            <span class="section-count" data-count-for="hr-benefits">3 Plattformen</span>
+          </div>
+          <div class="grid" data-grid>
+
+            <a class="tile reveal" href="https://admkrs-gmbh.personio.de" target="_blank" rel="noopener noreferrer"
+               data-name="Personio" data-desc="Urlaub, Gehalt & Stammdaten." data-domain="admkrs-gmbh.personio.de" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#EDEDED" aria-hidden="true" focusable="false"><path d="M21.603 24H2.47v-1.563h19.133Zm-6.167-4.044c.557.145 1.137-.244 1.303-.867.166-.624-.157-1.25-.713-1.39-.556-.142-1.137.24-1.304.865-.167.624.156 1.25.714 1.39zM22.37.676c-1.737-1.347-5.387-.43-8.145.576A41.707 41.705 0 0 0 5.64 5.625C3.624 6.985 1.135 8.987.748 10.814a1.43 1.43 0 0 0 .28 1.263c.505.59 1.354.576 1.516.568a.781.781 0 0 0 .51-1.368.783.783 0 0 0-.58-.193.877.877 0 0 1-.181-.016c.58-2.136 6.69-6.232 12.47-8.342 3.858-1.408 5.964-1.342 6.649-.81.284.22.433.487.23 1.062-.545 1.535-3.2 3.96-7.108 6.48-.725.467-1.434.898-2.11 1.29.544-1.92 1.1-3.88 1.582-5.561a.782.782 0 0 0-1.504-.43 2070.72 2070.634 0 0 0-2.002 7.05c-1.564.811-2.754 1.3-3.22 1.366a.783.783 0 0 0-1.025 1.095c.134.226.4.476.929.476.088 0 .177-.007.264-.02.54-.073 1.417-.395 2.485-.884-.758 2.702-1.373 4.975-1.407 5.282a.781.781 0 0 0 .69.858.668.668 0 0 0 .087 0 .783.783 0 0 0 .775-.685c.062-.38.822-3.133 1.746-6.42a58.241 58.239 0 0 0 4.01-2.401c5.435-3.587 7.007-5.917 7.362-7.241.277-1.02-.017-1.93-.825-2.557z"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">Personio</div>
+                <p class="tile-desc">Urlaub, Gehalt &amp; Stammdaten.</p>
+                <p class="tile-domain">admkrs-gmbh.personio.de</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+            <a class="tile reveal" href="https://ihre.mitarbeiterangebote.de" target="_blank" rel="noopener noreferrer"
+               data-name="Mitarbeiterangebote" data-desc="Corporate Benefits & Rabatte." data-domain="ihre.mitarbeiterangebote.de" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#FFC93A" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false"><rect x="3.7" y="10" width="16.6" height="10.3" rx="1.7"/><path d="M2.7 10h18.6M12 10v10.3"/><path d="M12 10c-1.2 0-4.6.1-4.6-2.5 0-1.4 1-2.2 2.2-2.2C11.6 5.3 12 10 12 10z"/><path d="M12 10c1.2 0 4.6.1 4.6-2.5 0-1.4-1-2.2-2.2-2.2C12.4 5.3 12 10 12 10z"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">Mitarbeiterangebote</div>
+                <p class="tile-desc">Corporate Benefits &amp; Rabatte.</p>
+                <p class="tile-domain">ihre.mitarbeiterangebote.de</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+            <a class="tile reveal" href="https://login.pxtra.de" target="_blank" rel="noopener noreferrer"
+               data-name="pxtra" data-desc="Benefits: Essenszuschuss, Sachbezug, ÖPNV-Ticket-Erstattung." data-domain="login.pxtra.de" data-fav="letter">
+              <div class="tile-top">
+                <span class="fav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#33DDB0" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false"><rect x="2.8" y="5.4" width="18.4" height="13.2" rx="2.7"/><path d="M2.8 9.6h18.4"/><path d="M6.4 14.7h4.2"/><path d="M16.8 13.4v3.1M15.25 14.95h3.1" stroke-width="1.5"/></svg></span>
+                <span class="open-aff" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8" /></svg></span>
+              </div>
+              <div class="tile-body">
+                <div class="tile-name">pxtra</div>
+                <p class="tile-desc">Benefits: Essenszuschuss, Sachbezug, ÖPNV-Ticket-Erstattung.</p>
+                <p class="tile-domain">login.pxtra.de</p>
+                <span class="skip">(öffnet in neuem Tab)</span>
+              </div>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- ===== Empty state ===== -->
+        <div class="empty" id="empty" role="status" aria-live="polite">
+          <span class="em-ic" aria-hidden="true">⌕</span>
+          <h3>Keine Plattform gefunden.</h3>
+          <p>Für deine Suche gibt es keinen Treffer. Versuch einen anderen Begriff.</p>
+          <button type="button" id="reset">Suche zurücksetzen</button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap footer-inner">
+    <p class="copy">© 2026 ADMKRS GmbH <span class="dot" aria-hidden="true">·</span> München <span class="dot" aria-hidden="true">·</span> interner Gebrauch</p>
+    <p class="tag"><span class="live" aria-hidden="true"></span>Ein Startpunkt für alles</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var SECTIONS = ["interne-tools", "projekt-kommunikation", "hr-benefits"];
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ===========================================================
+     STICKY TOP BAR shadow
+     =========================================================== */
+  var topbar = document.getElementById("topbar");
+  var onScroll = function () {
+    topbar.classList.toggle("scrolled", window.scrollY > 8);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ===========================================================
+     SCROLL REVEAL — progressive enhancement.
+     Observe immediately; elements already in the viewport on
+     init fire right away and reveal. Reduced motion → show all.
+     =========================================================== */
+  var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+
+  // Stagger tiles within each grid.
+  document.querySelectorAll("[data-grid]").forEach(function (grid) {
+    grid.querySelectorAll(".tile.reveal").forEach(function (t, i) {
+      t.style.setProperty("--d", (Math.min(i, 6) * 70) + "ms");
+    });
+  });
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var revObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          revObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+    reveals.forEach(function (el) { revObserver.observe(el); });
+  }
+
+  /* ===========================================================
+     ACTIVE SECTION HIGHLIGHT (scroll-spy via IntersectionObserver)
+     Drives both the desktop sidebar and the mobile spy strip.
+     =========================================================== */
+  var navLinks = {};
+  var spyLinks = {};
+  document.querySelectorAll(".nav-link").forEach(function (l) { navLinks[l.getAttribute("data-target")] = l; });
+  document.querySelectorAll(".mspy-link").forEach(function (l) { spyLinks[l.getAttribute("data-spy")] = l; });
+
+  function setActive(id) {
+    SECTIONS.forEach(function (s) {
+      var on = s === id;
+      if (navLinks[s]) {
+        navLinks[s].classList.toggle("active", on);
+        if (on) navLinks[s].setAttribute("aria-current", "location");
+        else navLinks[s].removeAttribute("aria-current");
+      }
+      if (spyLinks[s]) {
+        spyLinks[s].classList.toggle("active", on);
+        if (on) {
+          spyLinks[s].setAttribute("aria-current", "location");
+          // keep active chip in view on the mobile strip
+          if (spyLinks[s].scrollIntoView) {
+            spyLinks[s].scrollIntoView({ block: "nearest", inline: "center", behavior: reduceMotion ? "auto" : "smooth" });
+          }
+        } else {
+          spyLinks[s].removeAttribute("aria-current");
+        }
+      }
+    });
+  }
+
+  if ("IntersectionObserver" in window) {
+    var visible = {};
+    var secObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        visible[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
+      });
+      var best = null, bestRatio = -1;
+      SECTIONS.forEach(function (s) {
+        var r = visible[s] || 0;
+        if (r > bestRatio) { bestRatio = r; best = s; }
+      });
+      if (best && bestRatio > 0) setActive(best);
+    }, { rootMargin: "-25% 0px -55% 0px", threshold: [0, 0.15, 0.4, 0.75, 1] });
+    SECTIONS.forEach(function (s) {
+      var el = document.getElementById(s);
+      if (el) secObserver.observe(el);
+    });
+  }
+  setActive("interne-tools");
+
+  // Immediate feedback on click.
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener("click", function () {
+      var id = a.getAttribute("href").slice(1);
+      if (SECTIONS.indexOf(id) !== -1) setActive(id);
+    });
+  });
+
+  /* ===========================================================
+     LIVE SEARCH — case-insensitive; matches name + desc + domain.
+     Hides non-matching tiles AND empty sections. Shows empty
+     state. "/" focuses, "Esc" clears. Highlights matches.
+     =========================================================== */
+  var input = document.getElementById("search");
+  var clearBtn = document.getElementById("clear");
+  var resetBtn = document.getElementById("reset");
+  var wrap = input.closest(".searchwrap");
+  var meta = document.getElementById("searchmeta");
+  var empty = document.getElementById("empty");
+  var tiles = Array.prototype.slice.call(document.querySelectorAll(".tile"));
+  var sectionEls = SECTIONS.map(function (s) { return document.getElementById(s); });
+  var total = tiles.length;
+
+  // German-friendly normalization: lowercase + strip diacritics + umlaut expansion.
+  function norm(s) {
+    return (s || "")
+      .toLowerCase()
+      .replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
+      .normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+  function escReg(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+  function escHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+  // Highlight raw query (visual) on name + desc.
+  function highlight(tile, rawQuery) {
+    var nameEl = tile.querySelector(".tile-name");
+    var descEl = tile.querySelector(".tile-desc");
+    var name = tile.getAttribute("data-name");
+    var desc = tile.getAttribute("data-desc");
+    if (!rawQuery) {
+      nameEl.textContent = name;
+      descEl.textContent = desc;
+      return;
+    }
+    var re = new RegExp("(" + escReg(rawQuery) + ")", "ig");
+    nameEl.innerHTML = escHtml(name).replace(re, "<mark>$1</mark>");
+    descEl.innerHTML = escHtml(desc).replace(re, "<mark>$1</mark>");
+  }
+
+  function plural(n) { return n + (n === 1 ? " Plattform" : " Plattformen"); }
+
+  function applyFilter() {
+    var raw = input.value.trim();
+    var q = norm(raw);
+    wrap.classList.toggle("has-value", input.value.length > 0);
+    var shownTotal = 0;
+
+    tiles.forEach(function (tile) {
+      var hay = norm(
+        tile.getAttribute("data-name") + " " +
+        tile.getAttribute("data-desc") + " " +
+        tile.getAttribute("data-domain")
+      );
+      var match = q === "" || hay.indexOf(q) !== -1;
+      tile.classList.toggle("hidden", !match);
+      if (match) shownTotal++;
+      highlight(tile, raw);
+    });
+
+    // Hide empty sections; update per-section counts.
+    sectionEls.forEach(function (sec) {
+      var shown = sec.querySelectorAll(".tile:not(.hidden)").length;
+      var totalIn = sec.querySelectorAll(".tile").length;
+      sec.classList.toggle("hidden", q !== "" && shown === 0);
+      var cnt = document.querySelector('[data-count-for="' + sec.id + '"]');
+      if (cnt) cnt.textContent = q ? (shown + " / " + totalIn) : plural(totalIn);
+    });
+
+    empty.classList.toggle("show", shownTotal === 0);
+
+    if (shownTotal === 0) {
+      meta.innerHTML = 'Keine Treffer für „<b>' + escHtml(raw) + '</b>“.';
+    } else if (q) {
+      meta.innerHTML = "<b>" + shownTotal + "</b> von " + total + " Plattformen sichtbar.";
+    } else {
+      meta.innerHTML = "<b>" + total + "</b> Plattformen in 3 Kategorien.";
+    }
+  }
+
+  input.addEventListener("input", applyFilter);
+  clearBtn.addEventListener("click", function () { input.value = ""; applyFilter(); input.focus(); });
+  resetBtn.addEventListener("click", function () { input.value = ""; applyFilter(); input.focus(); });
+
+  // "/" focuses search; "Esc" clears.
+  // SC 2.1.4: single-character shortcut only fires on a bare "/" — no
+  // modifier keys held (so Ctrl+/, Alt+/, Cmd+/ and Shift-layouts that
+  // yield "?" are ignored) and never while a form field has focus.
+  document.addEventListener("keydown", function (e) {
+    var ae = document.activeElement;
+    var typing = ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName);
+    var modified = e.ctrlKey || e.metaKey || e.altKey;
+    if (e.key === "/" && !modified && !typing) {
+      e.preventDefault();
+      input.focus();
+    } else if (e.key === "Escape" && ae === input) {
+      if (input.value) { input.value = ""; applyFilter(); }
+    }
+  });
+})();
+</script>
+</body>
+</html>
