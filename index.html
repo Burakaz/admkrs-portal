@@ -452,6 +452,10 @@
     background: var(--neon-grad);
     box-shadow: 0 0 12px var(--neon-glow);
   }
+  .nav-sep { height: 1px; background: var(--line); margin: 12px 13px; list-style: none; }
+  .nav-link .num svg { width: 14px; height: 14px; display: block; }
+  .nav-link .go { margin-left: auto; color: var(--muted-dim); font-family: var(--font-display); transition: color 0.22s var(--ease), transform 0.22s var(--ease); }
+  .nav-link:hover .go { color: var(--neon-1); transform: translateX(2px); }
   .nav-foot {
     margin-top: 26px;
     padding-top: 22px;
@@ -771,6 +775,7 @@
       transition: color 0.22s var(--ease), border-color 0.22s var(--ease), background 0.22s var(--ease);
     }
     .mspy-link .mnum { color: var(--muted-dim); transition: color 0.22s var(--ease); }
+    .mspy-link .mnum-ic svg { width: 13px; height: 13px; display: block; }
     .mspy-link.active {
       color: #0a0a0a;
       background: var(--neon-grad);
@@ -812,7 +817,7 @@
       <span class="bar-tag">Internes Portal</span>
     </div>
     <div class="topbar-right">
-      <span class="ver">v2.6 · intern</span>
+      <span class="ver">v2.7 · intern</span>
       <a class="btn-neon" href="https://slack.com" target="_blank" rel="noopener noreferrer" aria-label="Feedback geben (öffnet in neuem Tab)">
         Feedback geben
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" /></svg>
@@ -822,10 +827,11 @@
 </header>
 
 <!-- ===== Mobile scroll-spy strip (pinned under top bar) ===== -->
-<nav class="mobile-spy" aria-label="Kategorien (mobil)">
+<nav class="mobile-spy" aria-label="Navigation (mobil)">
   <a class="mspy-link" href="#interne-tools" data-spy="interne-tools"><span class="mnum">01</span>Interne Tools</a>
   <a class="mspy-link" href="#projekt-kommunikation" data-spy="projekt-kommunikation"><span class="mnum">02</span>Projekt &amp; Kommunikation</a>
   <a class="mspy-link" href="#hr-benefits" data-spy="hr-benefits"><span class="mnum">03</span>HR &amp; Benefits</a>
+  <a class="mspy-link" href="./signatur.html"><span class="mnum mnum-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2.8" y="5" width="18.4" height="14" rx="2.6"/><path d="M3.4 6.6 12 12.7l8.6-6.1"/></svg></span>E-Mail-Signatur</a>
 </nav>
 
 <span id="top"></span>
@@ -872,12 +878,14 @@
 
     <!-- Sidebar (persistent, desktop) -->
     <aside class="sidebar">
-      <nav aria-label="Kategorien">
+      <nav aria-label="Navigation">
         <p class="nav-title">Navigation</p>
         <ul class="nav">
           <li><a class="nav-link" href="#interne-tools" data-target="interne-tools"><span class="num">01</span><span class="label">Interne Tools</span></a></li>
           <li><a class="nav-link" href="#projekt-kommunikation" data-target="projekt-kommunikation"><span class="num">02</span><span class="label">Projekt &amp; Kommunikation</span></a></li>
           <li><a class="nav-link" href="#hr-benefits" data-target="hr-benefits"><span class="num">03</span><span class="label">HR &amp; Benefits</span></a></li>
+          <li class="nav-sep" role="presentation" aria-hidden="true"></li>
+          <li><a class="nav-link" href="./signatur.html"><span class="num" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2.8" y="5" width="18.4" height="14" rx="2.6"/><path d="M3.4 6.6 12 12.7l8.6-6.1"/></svg></span><span class="label">E-Mail-Signatur</span><span class="go" aria-hidden="true">→</span></a></li>
         </ul>
         <div class="nav-foot">
           <span class="live"><span class="live-dot" aria-hidden="true"></span> 11 Plattformen aktiv</span>
